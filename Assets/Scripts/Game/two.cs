@@ -9,12 +9,12 @@ public class two : MonoBehaviour
     {
         Debug.Log("Scene \"two\"");
         
-        var manager = TestManager.GetInctance();
+        //var manager = TestManager.GetInctance();
         
-        Debug.Log("X: " + manager.x);
-        Debug.Log("Y: " + manager.y);
+        //Debug.Log("X: " + manager.x);
+        //Debug.Log("Y: " + manager.y);
         
-        manager.Increment();
+        //manager.Increment();
     }
     
     void Update()
