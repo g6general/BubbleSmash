@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Navigation
 {
-    protected static Navigation mInstance;
+    private static Navigation mInstance;
     
     private Navigation()
     {

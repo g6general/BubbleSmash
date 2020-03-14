@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class GameData
+public class Game
 {
-    private static GameData mInstance;
+    private static Game mInstance;
     
-    private GameData()
+    private Game()
     {
-        Debug.Log("GameData Constructor");
+        Debug.Log("Game Constructor");
     }
 
-    public static GameData GetGameData()
+    public static Game GetGame()
     {
         if (mInstance == null)
-            mInstance = new GameData();
+            mInstance = new Game();
 
         return mInstance;
     }

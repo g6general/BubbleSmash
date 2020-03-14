@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Parameters
 {
-    protected static Parameters mInstance;
+    private static Parameters mInstance;
     
     private Parameters()
     {
