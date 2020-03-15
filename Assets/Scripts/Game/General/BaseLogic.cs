@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseLogic : MonoBehaviour
+public abstract class BaseLogic : MonoBehaviour
 {
 }
