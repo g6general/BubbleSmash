@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Loading : BaseLogic
@@ -19,9 +20,12 @@ public class Loading : BaseLogic
     
     void Start()
     {
+        // включить заставку
+        
         mStatus = eLoadingStatus.INITIAL_STATE;
         
-        // включить заставку
+        var progressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+        progressBar.Launch(1, IsLoadingCompleted);
     }
     
     void Update()
@@ -48,6 +52,13 @@ public class Loading : BaseLogic
                 break;
         }
     }
+    
+    // TEMP
+    public bool IsLoadingCompleted(int taskIndex)
+    {
+        return true;
+    }
+    // TEMP
 
     IEnumerator CheckGameVersion()
     {

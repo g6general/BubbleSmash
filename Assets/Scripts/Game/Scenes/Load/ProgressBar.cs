@@ -29,7 +29,7 @@ public class ProgressBar : BaseLogic
     private int mNumberOfTasks;
     private int mCurrentTaskIndex;
 
-    void Start()
+    private void Init()
     {
         mRectTransform = GetComponent<RectTransform>();
         mRectTransform.sizeDelta = new Vector2(0, mRectTransform.sizeDelta.y);
@@ -43,10 +43,6 @@ public class ProgressBar : BaseLogic
         mStatus = eProgressStatus.INACTION;
         mNumberOfTasks = 1;
         mCurrentTaskIndex = 0;
-        
-        // TEMP
-        Launch(4, function);
-        // TEMP
     }
 
     void Update()
@@ -97,15 +93,9 @@ public class ProgressBar : BaseLogic
 
     public void Launch(int numberOfTasks, CallBack IsLoadingCompleted)
     {
+        Init();
         mNumberOfTasks = numberOfTasks;
         mIsLoadingCompleted = IsLoadingCompleted;
         mStatus = eProgressStatus.INPROGRESS;
     }
-    
-    // TEMP
-    public bool function(int test)
-    {
-        return true;
-    }
-    // TEMP
 }
