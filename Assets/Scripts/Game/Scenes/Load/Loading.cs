@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Loading : BaseLogic
 {
@@ -10,7 +11,7 @@ public class Loading : BaseLogic
         INITIAL_STATE,
         IN_PROGRESS,
         TASK_FAILED,
-        INACTIVE,
+        INACTIVE_STATE,
         VERSION_CHECKED,
         MANAGERS_LOADED,
         GENERAL_LOADED,
@@ -59,7 +60,7 @@ public class Loading : BaseLogic
         
         Debug.Log(failedTask + " : failed");
 
-        mStatus = eLoadingStatus.INACTIVE;
+        mStatus = eLoadingStatus.INACTIVE_STATE;
     }
     
     private void OnLoadingCompleted()
@@ -68,9 +69,9 @@ public class Loading : BaseLogic
         
         Debug.Log("Loading is completed");
         
-        mStatus = eLoadingStatus.INACTIVE;
-        
-        // load meta game
+        mStatus = eLoadingStatus.INACTIVE_STATE;
+
+        SceneManager.LoadScene("Meta", LoadSceneMode.Single);
     }
 
     void Start()
@@ -120,7 +121,7 @@ public class Loading : BaseLogic
 
             case eLoadingStatus.PROFILE_LOADED:
                 mLoadingProgress[eLoadingStatus.PROFILE_LOADED] = true;
-                OnLoadingCompleted();
+                Invoke("OnLoadingCompleted", 2f);
                 break;
 
             case eLoadingStatus.TASK_FAILED:
@@ -190,7 +191,6 @@ public class Loading : BaseLogic
     IEnumerator LoadProfile()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
-        yield return new WaitForSeconds(2f);    //temp
         Debug.Log("Load profile (save + settings)");
         mStatus = eLoadingStatus.PROFILE_LOADED;
         yield return null;
