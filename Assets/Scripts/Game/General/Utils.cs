@@ -48,6 +48,19 @@ public class TaskQueue
         return (result == null) ? false : result.Item2;
     }
 
+    public bool IsTaskCompleted(int taskIndex)
+    {
+        if (taskIndex >= mTaskQueue.Count)
+            return false;
+        
+        return IsTaskCompleted(mTaskQueue[taskIndex].Item1);
+    }
+
+    public int NumberOfTasks()
+    {
+        return mTaskQueue.Count;
+    }
+
     private void OnTerminated(string taskName)
     {
         // Do nothing

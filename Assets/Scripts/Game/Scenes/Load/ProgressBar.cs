@@ -17,8 +17,7 @@ public class ProgressBar : BaseLogic
     {
         INACTION,
         WAITING,
-        INPROGRESS,
-        COMPLETED
+        INPROGRESS
     }
 
     private eProgressStatus mStatus;
@@ -38,7 +37,7 @@ public class ProgressBar : BaseLogic
         mFillingSpeedFast = 240f;    // TEMP
         mCurrentSpeed = mFillingSpeedSlow;
 
-        mMaxWidth = 452f;    // TEMP
+        mMaxWidth = 454f;    // TEMP
         
         mStatus = eProgressStatus.INACTION;
         mNumberOfTasks = 1;
@@ -55,7 +54,7 @@ public class ProgressBar : BaseLogic
 
                 if (mCurrentTaskIndex == mNumberOfTasks)
                 {
-                    mStatus = eProgressStatus.COMPLETED;
+                    mStatus = eProgressStatus.INACTION;
                 }
                 else
                 {
@@ -82,12 +81,6 @@ public class ProgressBar : BaseLogic
             {
                 mStatus = eProgressStatus.WAITING;
             }
-            
-        }
-        else if (mStatus == eProgressStatus.COMPLETED)
-        {
-            Debug.Log("LOAD META GAME");
-            mStatus = eProgressStatus.INACTION;
         }
     }
 
@@ -97,5 +90,11 @@ public class ProgressBar : BaseLogic
         mNumberOfTasks = numberOfTasks;
         mIsLoadingCompleted = IsLoadingCompleted;
         mStatus = eProgressStatus.INPROGRESS;
+    }
+
+    public void Fill()
+    {
+        mRectTransform.sizeDelta = new Vector2(mMaxWidth, mRectTransform.sizeDelta.y);
+        mStatus = eProgressStatus.INACTION;
     }
 }

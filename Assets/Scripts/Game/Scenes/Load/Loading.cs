@@ -17,91 +17,91 @@ public class Loading : BaseLogic
     }
 
     private eLoadingStatus mStatus;
+
+    private TaskQueue mTaskQueue;
+
+    private ProgressBar mProgressBar;
     
+    private void OnTerminated(string taskName)
+    {
+        Debug.Log(taskName + " : failed");
+    }
+    
+    private void OnCompleted()
+    { 
+        mProgressBar.Fill();
+        
+        Debug.Log("Loading is completed");
+        
+        // load meta game
+    }
+
     void Start()
     {
         // включить заставку
         
         mStatus = eLoadingStatus.INITIAL_STATE;
-        
-        var progressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
-        progressBar.Launch(1, IsLoadingCompleted);
-    }
-    
-    void Update()
-    {
-        switch (mStatus)
-        {
-            case eLoadingStatus.INITIAL_STATE:
-                StartCoroutine("CheckGameVersion");
-                break;
-            case eLoadingStatus.VERSION_CHECKED:
-                StartCoroutine("LoadManagers");
-                break;
-            case eLoadingStatus.MANAGERS_LOADED:
-                StartCoroutine("LoadGeneralObjects");
-                break;
-            case eLoadingStatus.GENERAL_LOADED:
-                StartCoroutine("LoadConfigs");
-                break;
-            case eLoadingStatus.CONFIGS_LOADED:
-                StartCoroutine("LoadProfile");
-                break;
-            case eLoadingStatus.PROFILE_LOADED:
-                // запуск мета гейма
-                break;
-        }
-    }
-    
-    // TEMP
-    public bool IsLoadingCompleted(int taskIndex)
-    {
-        return true;
-    }
-    // TEMP
+        mProgressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
 
-    IEnumerator CheckGameVersion()
+        mTaskQueue = new TaskQueue(OnTerminated, OnCompleted);
+        mTaskQueue.AddTask("CheckGameVersion", CheckGameVersion);
+        mTaskQueue.AddTask("LoadManagers", LoadManagers);
+        mTaskQueue.AddTask("LoadGeneralObjects", LoadGeneralObjects);
+        mTaskQueue.AddTask("LoadConfigs", LoadConfigs);
+        mTaskQueue.AddTask("LoadProfile", LoadProfile);
+        
+        mProgressBar.Launch(mTaskQueue.NumberOfTasks(), IsTaskCompleted);
+        StartCoroutine("LoadingProcess");
+    }
+    
+    IEnumerator LoadingProcess()
+    {
+        mTaskQueue.Launch();
+        yield return null;
+    }
+
+    private bool IsTaskCompleted(int taskIndex)
+    {
+        return mTaskQueue.IsTaskCompleted(taskIndex);
+    }
+
+    private bool CheckGameVersion()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
         Debug.Log("Check game version");
-        yield return new WaitForSeconds(1f);    // temp
         mStatus = eLoadingStatus.VERSION_CHECKED;
-        yield return null;
+        return true;
     }
     
-    IEnumerator LoadManagers()
+    private bool LoadManagers()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
         Debug.Log("Load managers");
-        yield return new WaitForSeconds(1f);    // temp
         mStatus = eLoadingStatus.MANAGERS_LOADED;
-        yield return null;
+        return true;
     }
     
-    IEnumerator LoadGeneralObjects()
+    private bool LoadGeneralObjects()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
         Debug.Log("Load general objects");
-        yield return new WaitForSeconds(1f);    // temp
         mStatus = eLoadingStatus.GENERAL_LOADED;
-        yield return null;
+        return true;
     }
     
-    IEnumerator LoadConfigs()
+    private bool LoadConfigs()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
         Debug.Log("Load configs");
-        yield return new WaitForSeconds(1f);    // temp
         mStatus = eLoadingStatus.CONFIGS_LOADED;
-        yield return null;
+        return true;
     }
     
-    IEnumerator LoadProfile()
+    private bool LoadProfile()
     {
         mStatus = eLoadingStatus.IN_PROGRESS;
         Debug.Log("Load profile (save + settings)");
-        yield return new WaitForSeconds(1f);    // temp
         mStatus = eLoadingStatus.PROFILE_LOADED;
-        yield return null;
+        return true;
     }
 }
