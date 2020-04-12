@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Grind.unity
     guid: 209675e15cd3a4737af54e24d8bc943a
+  - enabled: 1
+    path: Assets/Scenes/Ads.unity
+    guid: 2267c101a0b2f4b8e98edbc3a2bb70f2
   m_configObjects: {}
