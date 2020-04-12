@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class Timer : MonoBehaviour
+public class Timer : BaseLogic
 {
     private float mTargetTime;
     private Text  mTimer;
@@ -29,6 +30,6 @@ public class Timer : MonoBehaviour
 
     private void OnComplete()
     {
-        // Exit
+        SceneManager.LoadScene("Grind", LoadSceneMode.Single);
     }
 }
